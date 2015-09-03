@@ -5,6 +5,10 @@
 #include "parser.h"
 
 
+void parser_debug(int event, void *data) {
+}
+
+
 struct parser_t *
 parser_create(char *name) {
     struct parser_t *parser;
@@ -22,6 +26,7 @@ parser_create(char *name) {
             parser->doc_state = doc_state;
         }    
 
+        parser->cb = parser_debug;
         parser->line_num = 0;
     }
 
@@ -36,6 +41,11 @@ parser_dispose(struct parser_t *parser) {
         }
         free(parser);
     }
+}
+
+
+void parser_set_callback(struct parser_t *parser, parser_cb_t cb) {
+    parser->cb = cb;
 }
 
 /**
@@ -61,7 +71,7 @@ int parser_parseline(struct parser_t *parser, unsigned char *str, size_t size)
                 doc_state->mode = DOC_MODE_COMMAND;
             } else {
                 //
-                fprintf(stdout, "char: %c", ch);
+                parser->cb(1, (void *)&ch);
             }
         } else
         if (doc_state->mode == DOC_MODE_COMMAND) {
@@ -76,46 +86,68 @@ int parser_parseline(struct parser_t *parser, unsigned char *str, size_t size)
             if (ch == COMMAND_FONT_0) {
                 doc_state->font = DOC_FONT_0;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_1) {
                 doc_state->font = DOC_FONT_1;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_2) {
                 doc_state->font = DOC_FONT_2;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_3) {
                 doc_state->font = DOC_FONT_3;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_4) {
                 doc_state->font = DOC_FONT_4;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_5) {
                 doc_state->font = DOC_FONT_5;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_6) {
                 doc_state->font = DOC_FONT_6;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_7) {
                 doc_state->font = DOC_FONT_7;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_8) {
                 doc_state->font = DOC_FONT_8;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_FONT_9) {
                 doc_state->font = DOC_FONT_9;
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(2, (void *)&doc_state->font);
             } else
             if (ch == COMMAND_ESCAPE) {
                 fprintf(stdout, "char: %c", ch);
                 doc_state->mode = DOC_MODE_TEXT;
+                //
+                parser->cb(1, (void *)&ch);
             } else {
                 fprintf(stderr, "error: unknown command.");
             }

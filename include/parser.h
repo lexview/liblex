@@ -28,11 +28,21 @@ struct doc_state_t {
 #define DOC_FONT_9          0x09
 
 struct doc_line_t {
+    unsigned int margin_top;
+    unsigned int margin_left;
+    unsigned int margin_right;
+    unsigned int margin_bottom;
 
+    unsigned int height;
+    unsigned int width;
 };
+
+typedef void (* parser_cb_t)(int event, void *data);
 
 struct parser_t {
     struct doc_state_t *doc_state;
+
+    parser_cb_t cb;
 
     unsigned long line_num;
 

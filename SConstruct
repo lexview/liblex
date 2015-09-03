@@ -1,6 +1,7 @@
 #!/usr/bin/env scons
 
-env = Environment(platform="win32", tools=["mingw"])  # Initialize the environment
+env = Environment(platform="win32", MSVC="12.0")
+
 
 CFLAGS = ["-IC:\\Python27\\include", "-Iinclude"]
 LIBPATH = ["C:\\Python27\\libs"]
