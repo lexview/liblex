@@ -1,16 +1,14 @@
+all: clean compile
 
-CC=gcc
-AR=ar
+clean:
+	-rm -rf builddir
 
-CCFLAGS = -fPIC -Iinclude
+compile:
+	meson builddir
+	cd builddir ; ninja
 
-all: liblex example1
+check:
+	cd builddir ; ninja test
 
-liblex:
-	$(CC) $(CCFLAGS) -c src/parser.c -o src/parser.o
-	$(AR) cr liblex.a src/parser.o
+.PHONY: all clean compile check
 
-example1:
-	$(CC) $(CCFLAGS) -o example1 example/example1.c liblex.a
-
-.PHONY: all example1
